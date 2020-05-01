@@ -11,8 +11,11 @@ FILEPATH = '/tmp/file.txt'  # Change this if you're on MacOS
 
 
 def schedule_view(request):
+    what = 'core.views.do_something'
     when = timezone.now() + timedelta(seconds=DELAY)
-    schedule(dotted_path, schedule_type=Schedule.ONCE, next_run=when)
+
+    schedule(what, schedule_type=Schedule.ONCE, next_run=when)
+
     return HttpResponse(f'''
         <p>
             Something will be written to <pre>{FILEPATH}</pre> in {DELAY} sec.
@@ -25,4 +28,3 @@ def do_something():
     with open(FILEPATH, 'a') as fp:
         fp.write(f'[{now}]\tSomething very expected happened.\n')
 
-dotted_path = f'{do_something.__module__}.{do_something.__name__}'
